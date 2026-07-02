@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main, master ]
  
+permissions:            # ADD THIS BLOCK
+  contents: read        # ADD
+  packages: write       # ADD
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
