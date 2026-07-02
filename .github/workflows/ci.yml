@@ -47,6 +47,16 @@ jobs:
           sleep 15
           curl --fail http://localhost:8080/api/tutorials || exit 1
  
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build tag and push image to GHCR
+        run: |
+          IMAGE=ghcr.io/${{ github.repository }}
+          docker tag tutorial-app:ci $IMAGE:latest
+          docker push $IMAGE:latest
+
       - name: Publish image to GHCR
         run: |
           echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
